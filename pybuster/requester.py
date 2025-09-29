@@ -15,8 +15,7 @@ class ResponseResult:
 
 class Requester:
     def __init__(self, target_host: str, target_paths: Sequence[str]):
-        self.target_host = target_host
-        self.target_base_url = f"https://{self.target_host}"
+        self.target_base_url = f"https://{target_host}"
         self.target_paths = target_paths
 
     def create_aiohttp_connector(self):

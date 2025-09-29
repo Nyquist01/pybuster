@@ -1,5 +1,5 @@
 run:
-	uv run main.py -t bbc.co.uk
+	uv run main.py -t google.com
 
 
 format:
