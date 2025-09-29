@@ -1,7 +1,15 @@
 [project]
 name = "pybuster"
 version = "0.1.0"
-description = "Add your description here"
+description = "Hobby project similar to Gobuster, but probably slower"
 readme = "README.md"
 requires-python = ">=3.13.1"
-dependencies = []
+dependencies = [
+    "aiohttp>=3.12.15",
+    "uvloop>=0.21.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.13.2",
+]
