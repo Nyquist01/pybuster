@@ -7,6 +7,6 @@ def timer(func):
         func(*args)
         end_t = time.perf_counter()
         duration = end_t - start_t
-        print(f"Took {duration}s to finish")
+        print(f"Took {round(duration, 2)} seconds")
 
     return wrapper

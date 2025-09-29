@@ -23,7 +23,7 @@ def get_args():
         "--filename",
         help="Optional path to a file containing paths to enumerate, separate by a newline",
         required=False,
-        default="common.txt"
+        default="common.txt",
     )
     return args_parser.parse_args()
 
@@ -34,9 +34,10 @@ def main():
     target_host = args.target
     filename = args.filename
     target_paths = get_target_paths(filename)
-    requester = Requester(target_host, target_paths[1:1000])
+    requester = Requester(target_host, target_paths)
     results: list[list[str]] = asyncio.run(requester.run())
     display_responses(results, target_host)
+    print(f"Enumerated {len(target_paths)} paths")
 
 
 if __name__ == "__main__":

@@ -11,6 +11,7 @@ class ResponseResult:
     path: str
     size: int | None
     content_type: str | None = None
+    server: str | None = None
 
 
 class Requester:
@@ -36,8 +37,8 @@ class Requester:
         self, path: str, session: aiohttp.ClientSession
     ) -> ResponseResult | None:
         try:
-            response = await session.get(path)
-        except aiohttp.ClientError:
+            response = await session.get(path, allow_redirects=False)
+        except aiohttp.ClientError: # TODO: need to handle HTTP and asyncio timeouts
             print(f"Unable to find response for /{path}")
             return None
 
@@ -55,4 +56,5 @@ def deserialize_aiohttp_response(
         path=path,
         size=response.content_length,
         content_type=response.content_type,
+        server=response.headers.get("Server"),
     )
