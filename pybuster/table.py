@@ -10,7 +10,7 @@ class Colours(Enum):
     ORANGE = "\033[38;2;255;165;0m"
 
 
-def display_responses(responses: list[ResponseResult]):
+def display_responses(responses: list[ResponseResult], host: str):
     coloured_data = [
         [
             f"/{resp.path}",
@@ -20,13 +20,15 @@ def display_responses(responses: list[ResponseResult]):
         ]
         for resp in responses
     ]
-    print(
-        tabulate(
+    table = tabulate(
             coloured_data,
             headers=["Path", "Status", "Size", "Content-Type"],
             tablefmt="fancy_outline",
         )
-    )
+    table_width = len(table.splitlines()[0])
+    print("\n")
+    print(f"==================== {host} Directories ====================".center(table_width))
+    print(table)
 
 
 def colour_status_codes(status_code: int) -> str:
