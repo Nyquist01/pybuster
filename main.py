@@ -4,6 +4,7 @@ from argparse import ArgumentParser
 import uvloop
 
 from pybuster.requester import Requester
+from pybuster.table import display_responses
 from pybuster.utils import timer
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
@@ -25,8 +26,9 @@ def main():
     args = get_args()
     target_host = args.target
     target_paths = get_target_paths()
-    requester = Requester(target_host, target_paths)
-    asyncio.run(requester.run())
+    requester = Requester(target_host, target_paths[1:1000])
+    results: list[list[str]] = asyncio.run(requester.run())
+    display_responses(results)
 
 
 if __name__ == "__main__":
