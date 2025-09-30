@@ -33,7 +33,7 @@ class Requester:
         self,
         target_host: str,
         target_paths: Sequence[str],
-        concurrency: int = 400,
+        concurrency: int = 200,
         timeout: int = 600,
         default_retry_after: int = 10,
         max_attempts: int = 3,
@@ -42,10 +42,13 @@ class Requester:
         target_host : the target website/host.
         target_paths : a list of target directories/paths to enumerate.
         concurrency : the number of simultaneous connections the HTTP session can make.
-        timeout : the amount of time in seconds before the HTTP session times out FOR ALL
-            requests (not each individual request).
+            Defaults to 200.
+        timeout : the amount of time in seconds before the HTTP session timesout FOR ALL
+            requests (not each individual request). Defaults to 600 seconds.
+        default_retry_after : the default time to wait before retrying requests after being
+            rate limited if no Retry-After header is returned. Defaults to 10 seconds.
         max_attempts : maximum number of times to retry enumerating a single path before
-            giving up.
+            giving up. Defaults to 3.
         """
         self.target_host = target_host
         self.target_base_url = f"https://{target_host}"
@@ -62,7 +65,7 @@ class Requester:
             conn_timeout=self.timeout,
         )
 
-    async def run(self) -> list[ResponseResult]:
+    async def enumerate(self) -> list[ResponseResult]:
         """Enumerate all target paths on the target host"""
         async with self.create_session() as session:
             with Timer(self.target_host, self.target_paths):
