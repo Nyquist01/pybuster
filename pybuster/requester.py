@@ -37,14 +37,12 @@ class Requester:
         self, path: str, session: aiohttp.ClientSession
     ) -> ResponseResult | None:
         try:
-            response = await session.get(path)
+            async with session.get(path) as response:
+                if response.status == 404:
+                    return None
+                return deserialize_aiohttp_response(response, path)
         except aiohttp.ClientError:  # TODO: need to handle HTTP and asyncio timeouts
-            print(f"Unable to find response for /{path}")
             return None
-        if response.status == 404:
-            return None
-
-        return deserialize_aiohttp_response(response, path)
 
 
 def deserialize_aiohttp_response(
