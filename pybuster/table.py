@@ -40,7 +40,7 @@ def display_responses(responses: list[ResponseResult], host: str):
 
 def colour_status_codes(status_code: int) -> str:
     match status_code:
-        case 200:
+        case 200 | 301:
             colour = Colours.GREEN.value
         case 403 | 401:
             colour = Colours.ORANGE.value
