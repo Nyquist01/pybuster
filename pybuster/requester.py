@@ -79,7 +79,7 @@ class Requester:
 
         path_str = f"/{path}"
         try:
-            async with session.get(path) as response:
+            async with session.get(path, allow_redirects=True) as response:
                 if response.status == 404:
                     logger.debug("%s returned 404", path_str)
                     return None
