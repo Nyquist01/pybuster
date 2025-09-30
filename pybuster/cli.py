@@ -41,7 +41,7 @@ def main():
     logger.info("Starting directory enumeration for %s", target_host)
     target_paths = get_target_paths(filename)
     requester = Requester(target_host, target_paths)
-    results = asyncio.run(requester.run())
+    results = asyncio.run(requester.enumerate())
     display_responses(results, target_host)
 
 
