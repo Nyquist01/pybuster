@@ -31,6 +31,6 @@ def setup_logging():
     logging.basicConfig(
         format="%(asctime)s [%(levelname)s] %(message)s",
         encoding="utf-8",
-        level=logging.DEBUG,
+        level=logging.INFO,
         handlers=[logging.FileHandler("pybuster.log"), logging.StreamHandler()],
     )

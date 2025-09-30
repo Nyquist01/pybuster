@@ -38,7 +38,7 @@ def main():
     args = get_args()
     target_host = args.target
     filename = args.filename
-    logger.info("Starting directory enumerating for %s", target_host)
+    logger.info("Starting directory enumeration for %s", target_host)
     target_paths = get_target_paths(filename)
     requester = Requester(target_host, target_paths)
     results = asyncio.run(requester.run())
