@@ -30,7 +30,8 @@ class Requester:
             base_url=self.target_base_url, connector=connector
         ) as session:
             tasks = [self.make_request(path, session) for path in self.target_paths]
-            return await asyncio.gather(*tasks)
+            results = await asyncio.gather(*tasks)
+            return [result for result in results if result]
 
     async def make_request(
         self, path: str, session: aiohttp.ClientSession
@@ -40,7 +41,6 @@ class Requester:
         except aiohttp.ClientError:  # TODO: need to handle HTTP and asyncio timeouts
             print(f"Unable to find response for /{path}")
             return None
-
         if response.status == 404:
             return None
 
