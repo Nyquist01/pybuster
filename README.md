@@ -1,4 +1,4 @@
-# PyBuster
+# Pybuster
 
 Hobby project inspired by [Gobuster](https://github.com/OJ/gobuster)
 

@@ -1,5 +1,5 @@
 run:
-	uv run main.py -t monkeytype.com
+	uv run main.py -t www.bbc.co.uk
 
 
 format:
