@@ -36,7 +36,7 @@ def main():
     target_host = args.target
     filename = args.filename
     target_paths = get_target_paths(filename)
-    requester = Requester(target_host, target_paths[1:100])
+    requester = Requester(target_host, target_paths)
     results: list[list[str]] = asyncio.run(requester.run())
     display_responses(results, target_host)
     print(f"Enumerated {len(target_paths)} paths")

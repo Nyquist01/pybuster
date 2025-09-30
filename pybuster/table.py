@@ -25,7 +25,7 @@ def display_responses(responses: list[ResponseResult], host: str):
     ]
     table = tabulate(
         coloured_data,
-        headers=["Path", "Status", "Size", "Content-Type", "Server"],
+        headers=["Path", "HTTP Status", "Size", "Content-Type", "Server"],
         tablefmt="fancy_outline",
     )
     table_width = len(table.splitlines()[0])
