@@ -1,8 +1,13 @@
 import asyncio
+import logging
 from dataclasses import dataclass
 from typing import Sequence
 
 import aiohttp
+
+from .utils import Timer
+
+logger = logging.getLogger()
 
 
 @dataclass
@@ -15,33 +20,45 @@ class ResponseResult:
 
 
 class Requester:
-    def __init__(self, target_host: str, target_paths: Sequence[str]):
+    def __init__(
+        self,
+        target_host: str,
+        target_paths: Sequence[str],
+        concurrency: int = 100,
+        timeout: int = 3,
+    ):
+        self.target_host = target_host
         self.target_base_url = f"https://{target_host}"
         self.target_paths = target_paths
+        self.timeout = timeout
+        self.concurrency = concurrency
 
-    def create_aiohttp_connector(self):
-        # Increase the limit param which increase the total number simultaneous
-        # connections allowed by the aiohttp session
-        return aiohttp.TCPConnector(limit=0)
+    def create_session(self) -> aiohttp.ClientSession:
+        return aiohttp.ClientSession(
+            base_url=self.target_base_url,
+            connector=aiohttp.TCPConnector(limit=self.concurrency),
+            conn_timeout=self.timeout,
+        )
 
     async def run(self) -> list[ResponseResult]:
-        connector = self.create_aiohttp_connector()
-        async with aiohttp.ClientSession(
-            base_url=self.target_base_url, connector=connector
-        ) as session:
-            tasks = [self.make_request(path, session) for path in self.target_paths]
-            results = await asyncio.gather(*tasks)
-            return [result for result in results if result]
+        async with self.create_session() as session:
+            with Timer(self.target_host, self.target_paths):
+                tasks = [self.make_request(path, session) for path in self.target_paths]
+                results = await asyncio.gather(*tasks)
+                return [result for result in results if result]
 
     async def make_request(
         self, path: str, session: aiohttp.ClientSession
     ) -> ResponseResult | None:
+        path_str = f"/{path}"
         try:
             async with session.get(path) as response:
                 if response.status == 404:
+                    logger.info("%s returned 404", path_str)
                     return None
                 return deserialize_aiohttp_response(response, path)
         except aiohttp.ClientError:  # TODO: need to handle HTTP and asyncio timeouts
+            logger.error("Failed to get response for path %s", path_str)
             return None
 
 

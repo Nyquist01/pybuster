@@ -1,5 +1,5 @@
 run:
-	uv run -m pybuster -t bbc.co.uk
+	uv run -m pybuster -t google.com
 
 
 format:

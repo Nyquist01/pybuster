@@ -1,9 +1,12 @@
+import logging
 from enum import Enum
 
 from colorama import Fore, Style
 from tabulate import tabulate
 
 from .requester import ResponseResult
+
+logger = logging.getLogger()
 
 
 class Colours(Enum):
@@ -29,18 +32,15 @@ def display_responses(responses: list[ResponseResult], host: str):
         tablefmt="fancy_outline",
     )
     table_width = len(table.splitlines()[0])
-    print("\n")
-    print(
-        f"==================== {host} Directories ====================".center(
-            table_width
-        )
+    title = f"==================== {host} Directories ====================".center(
+        table_width
     )
-    print(table)
+    logger.info("\n%s\n%s", title, table)
 
 
 def colour_status_codes(status_code: int) -> str:
     match status_code:
-        case 200 | 301:
+        case 200 | 301 | 300:
             colour = Colours.GREEN.value
         case 403 | 401:
             colour = Colours.ORANGE.value

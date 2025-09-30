@@ -2,7 +2,7 @@
 
 Website directory enumeration tool writte in Python. Hobby project inspired by [Gobuster](https://github.com/OJ/gobuster).
 
-![alt text](https://github.com/Nyquist01/pybuster/blob/main/images/table.png)
+![alt text](https://github.com/Nyquist01/pybuster/blob/main/images/table_.png)
 
 # Usage
 

@@ -1,15 +1,18 @@
 """Entrypoint code"""
 
 import asyncio
+import logging
 from argparse import ArgumentParser
 
 import uvloop
 
 from pybuster.requester import Requester
 from pybuster.table import display_responses
-from pybuster.utils import timer
+from pybuster.utils import setup_logging
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+
+logger = logging.getLogger()
 
 
 def get_target_paths(file_path: str) -> list[str]:
@@ -30,16 +33,16 @@ def get_args():
     return args_parser.parse_args()
 
 
-@timer
 def main():
+    setup_logging()
     args = get_args()
     target_host = args.target
     filename = args.filename
+    logger.info("Starting directory enumerating for %s", target_host)
     target_paths = get_target_paths(filename)
     requester = Requester(target_host, target_paths)
-    results: list[list[str]] = asyncio.run(requester.run())
+    results = asyncio.run(requester.run())
     display_responses(results, target_host)
-    print(f"Enumerated {len(target_paths)} paths")
 
 
 if __name__ == "__main__":
