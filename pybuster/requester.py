@@ -22,7 +22,7 @@ class Requester:
     def create_aiohttp_connector(self):
         # Increase the limit param which increase the total number simultaneous
         # connections allowed by the aiohttp session
-        return aiohttp.TCPConnector(limit=100)
+        return aiohttp.TCPConnector(limit=0)
 
     async def run(self) -> list[ResponseResult]:
         connector = self.create_aiohttp_connector()
@@ -30,15 +30,14 @@ class Requester:
             base_url=self.target_base_url, connector=connector
         ) as session:
             tasks = [self.make_request(path, session) for path in self.target_paths]
-            results = await asyncio.gather(*tasks)
-            return [result for result in results if result is not None]
+            return await asyncio.gather(*tasks)
 
     async def make_request(
         self, path: str, session: aiohttp.ClientSession
     ) -> ResponseResult | None:
         try:
-            response = await session.get(path, allow_redirects=False)
-        except aiohttp.ClientError: # TODO: need to handle HTTP and asyncio timeouts
+            response = await session.get(path)
+        except aiohttp.ClientError:  # TODO: need to handle HTTP and asyncio timeouts
             print(f"Unable to find response for /{path}")
             return None
 
