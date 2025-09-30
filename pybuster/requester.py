@@ -26,6 +26,7 @@ class ResponseResult:
     size: int | None
     content_type: str | None = None
     server: str | None = None
+    tech: str | None = None
 
 
 class Requester:
@@ -79,19 +80,20 @@ class Requester:
         """
         Makes a request to a single path and returns a ResponseResult if it exists
         """
-
         path_str = f"/{path}"
         try:
-            async with session.get(path, allow_redirects=True) as response:
-                if response.status == 404:
-                    logger.debug("%s returned 404", path_str)
-                    return None
-                elif response.status == 429:
-                    return self.handle_rate_limit(path, session, response, attempts)
-                return deserialize_aiohttp_response(response, path)
+            response = await session.get(path, allow_redirects=True)
+            await response.read()
         except aiohttp.ClientError:
             logger.error("Failed to get response for path %s", path_str)
             return None
+
+        if response.status == 404:
+            logger.debug("%s returned 404", path_str)
+            return None
+        elif response.status == 429:
+            return self.handle_rate_limit(path, session, response, attempts)
+        return deserialize_aiohttp_response(response, path)
 
     async def handle_rate_limit(
         self,
@@ -101,7 +103,6 @@ class Requester:
         attempts: int,
     ) -> ResponseResult | None:
         """Retries requests for paths that returned a 429 error"""
-
         path_str = f"/{path}"
         if attempts > self.max_attempts:
             logger.error("Max retries exceeded for path %s", path_str)
@@ -123,10 +124,12 @@ class Requester:
 def deserialize_aiohttp_response(
     response: aiohttp.ClientResponse, path: str
 ) -> ResponseResult:
+    """Convert an aiohttp.ClientResponse to a ResponseResult"""
     return ResponseResult(
         status_code=response.status,
         path=path,
         size=response.content_length,
         content_type=response.content_type,
         server=response.headers.get("Server"),
+        tech=response.headers.get("X-Powered-By"),
     )
