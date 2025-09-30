@@ -24,9 +24,14 @@ class Requester:
         self,
         target_host: str,
         target_paths: Sequence[str],
-        concurrency: int = 100,
-        timeout: int = 3,
+        concurrency: int = 200,
+        timeout: int = 600,
     ):
+        """
+        concurrency : the number of simultaneous connections the HTTP session can make.
+        timeout : the amount of time in seconds before the HTTP session times out FOR ALL
+            requests (not each individual request).
+        """
         self.target_host = target_host
         self.target_base_url = f"https://{target_host}"
         self.target_paths = target_paths
