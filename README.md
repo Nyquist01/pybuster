@@ -9,28 +9,28 @@ Website directory enumeration tool writte in Python. Hobby project inspired by [
 
 ## Requirements.txt
 
-1. Create a virtual environment
+1. Create a virtual environment:
 
 ```
 python -m venv .venv
 ```
 
-2. Activate your virtual environment
+2. Activate it:
 
 ```
 source .venv/bin/activate
 ```
 
-3. Install the dependencies in your virtual environment:
+3. Install the dependencies:
 
 ```
 pip install -r requirements.txt
 ```
 
-4. Run main.py against a target host:
+4. Run the program:
 
 ```
-python main.py -t <host/domain>
+python -m pybuster -t google.com
 ```
 
 ## UV
@@ -38,5 +38,5 @@ python main.py -t <host/domain>
 Also supports [uv](https://docs.astral.sh/uv/). Just run using:
 
 ```
-uv run main.py -t <host/domain>
+uv run -m pybuster -t google.com
 ```
