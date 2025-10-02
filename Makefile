@@ -1,4 +1,4 @@
-run:
+enumerate:
 	uv run -m pybuster -t www.bbc.co.uk
 
 
@@ -10,3 +10,15 @@ format:
 
 requirements:
 	uv pip freeze > requirements.txt
+
+
+build:
+	docker compose build
+
+
+up:
+	docker compose up -w
+
+
+server:
+	uv run 
