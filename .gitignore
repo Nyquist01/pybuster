@@ -12,3 +12,4 @@ wheels/
 # Misc
 .vscode
 *.log
+*/node_modules
