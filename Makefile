@@ -20,5 +20,9 @@ up:
 	docker compose up -w
 
 
+down:
+	docker compose down
+
+
 server:
 	uv run 
