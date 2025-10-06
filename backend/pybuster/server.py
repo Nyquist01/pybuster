@@ -1,9 +1,8 @@
+from fastapi import FastAPI, WebSocket
 from pydantic import BaseModel
 
-from fastapi import FastAPI, WebSocket
-
-from .requester import Requester
 from .consts import DEFAULT_DIRECTORIES
+from .requester import Requester
 
 app = FastAPI()
 
