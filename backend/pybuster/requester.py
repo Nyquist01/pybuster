@@ -68,6 +68,7 @@ class Requester:
 
     async def enumerate(self) -> list[ResponseResult]:
         """Enumerate all target paths on the target host"""
+        logger.info("Dispatching request for %s", self.target_host)
         async with self.create_session() as session:
             with Timer(self.target_host, self.target_paths):
                 tasks = [self.make_request(path, session) for path in self.target_paths]

@@ -1,8 +1,8 @@
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI
 from pydantic import BaseModel
 
 from .consts import DEFAULT_DIRECTORIES
-from .requester import Requester
+from .requester import Requester, ResponseResult
 
 app = FastAPI()
 
@@ -12,12 +12,12 @@ class EnumerationRequest(BaseModel):
     target_directories: list[str] = DEFAULT_DIRECTORIES
 
 
-@app.websocket("/enumerate")
-async def enumerate_website(websocket: WebSocket):
-    await websocket.accept()
-    while True:
-        command = await websocket.receive_text()
-        command = EnumerationRequest.model_validate(command)
-        requester = Requester(command.target_host, command.target_directories)
-        results = requester.enumerate()
-        await websocket.send_json(results)
+@app.post("/enumerate")
+async def enumerate_website(
+    enumeration_request: EnumerationRequest,
+) -> list[ResponseResult]:
+    requester = Requester(
+        enumeration_request.target_host, enumeration_request.target_directories
+    )
+    response = await requester.enumerate()
+    return response

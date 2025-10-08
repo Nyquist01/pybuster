@@ -1,15 +1,15 @@
 enumerate:
-	uv run -m pybuster -t www.bbc.co.uk
+	uv run --directory backend/ -m pybuster -t www.bbc.co.uk
 
 
 format:
-	uv run ruff format
-	uv run ruff check --fix
-	uv run ruff check --fix --select I
+	uv run --directory backend/ ruff format
+	uv run --directory backend/ ruff check --fix
+	uv run --directory backend/ ruff check --fix --select I
 
 
 requirements:
-	uv pip freeze > requirements.txt
+	uv pip --directory backend/ freeze > requirements.txt
 
 
 build:
@@ -23,6 +23,3 @@ up:
 down:
 	docker compose down
 
-
-server:
-	uv run 
