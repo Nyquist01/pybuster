@@ -3,7 +3,31 @@
     <body>
         <h1>Pybuster</h1>
         <p>Website directory enumeration tool</p>
-        <button> Enumerate </button>
-        <script src="app.js"></script>
+        <form id="enumeration-form">
+            <input type="text" name="target_website" id="target-website-input" value="">
+            <input type="submit" value="Submit">
+        </form>
+        <script>
+            const form = document.getElementById("enumeration-form")
+            const targetWebsite = document.getElementById("target-website-input")
+
+            form.addEventListener("submit", async function (event) {
+                event.preventDefault();
+                const targetHost = document.getElementById("target-website-input").value;
+                console.log(`Target website: ${targetHost}`);
+                
+                const url = "http://localhost:8000/enumerate"
+                try {
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({target_host: targetHost})
+                    })
+                } catch (error) {
+                    console.error("Failed to enumerate website")
+                }});
+        </script>
     </body>
 </html>

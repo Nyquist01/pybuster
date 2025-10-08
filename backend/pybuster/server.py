@@ -1,4 +1,7 @@
+from typing import Any
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from .consts import DEFAULT_DIRECTORIES
@@ -6,9 +9,17 @@ from .requester import Requester, ResponseResult
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 class EnumerationRequest(BaseModel):
-    target_host: str
+    target_host: Any
     target_directories: list[str] = DEFAULT_DIRECTORIES
 
 
