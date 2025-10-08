@@ -12,4 +12,6 @@ wheels/
 # Misc
 .vscode
 *.log
+
+# Javascript related files
 */node_modules
