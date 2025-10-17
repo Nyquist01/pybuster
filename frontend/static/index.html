@@ -5,19 +5,46 @@
     </head>
     <body>
         <h1>Pybuster</h1>
-        <p>Website directory enumeration tool</p>
+        <p>Website directory enumeration tool written in Python</p>
         <form id="enumeration-form">
             <input type="text" name="target_website" id="target-website-input" value="">
             <input type="submit" value="Run">
         </form>
+
+        <div id="results"></div>
         <script>
             const form = document.getElementById("enumeration-form")
             const targetWebsite = document.getElementById("target-website-input")
+            const resultsContainer = document.getElementById("results")
+
+            function tableCreate(responseData) {
+                responseData.forEach(function (response) {
+                    console.info(response)
+                })
+                const body = document.body,
+                        tbl = document.createElement('table');
+                tbl.style.width = '500px';
+                tbl.style.border = '1px solid black';
+
+                responseData.forEach(function (response) {
+                    const tr = tbl.insertRow();
+                    let fieldNames = Object.keys(response);
+                    fieldNames.forEach(function (fieldName) {
+                        const td = tr.insertCell();
+                        td.appendChild(document.createTextNode(`${fieldName}: ${response[fieldName]}`));
+                        td.style.border = '1px solid yellow';
+                    })
+                    
+                })
+                body.appendChild(tbl);
+                }
+
 
             form.addEventListener("submit", async function (event) {
+                resultsContainer.innerHTML = ""
                 event.preventDefault();
                 const targetHost = document.getElementById("target-website-input").value;
-                console.log(`Target website: ${targetHost}`);
+                console.log(`Target Website: ${targetHost}`);
                 
                 const url = "http://localhost:8000/enumerate"
                 try {
@@ -27,10 +54,22 @@
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({target_host: targetHost})
+                    }).then(res => res.json())
+                    .then(data => {
+                        tableCreate(data);
+                        // const list = document.createElement("ul")
+                        // for (const item of data) {
+                        //     const li = document.createElement("li");
+                        //     li.textContent = `Path: ${item.path} Status_code: ${item.status_code}  Server: ${item.server}`
+                        //     list.append(li)
+                        // }
+                        // resultsContainer.appendChild(list)
                     })
                 } catch (error) {
                     console.error("Failed to enumerate website")
-                }});
+                }
+            }
+            );
         </script>
     </body>
 </html>
