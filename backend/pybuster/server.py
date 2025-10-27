@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from .consts import SHORT_DIRECTORIES
+from .consts import SHORT_DIRECTORIES, DEFAULT_DIRECTORIES
 from .requester import Requester, ResponseResult
 
 app = FastAPI()
@@ -20,7 +20,7 @@ app.add_middleware(
 
 class EnumerationRequest(BaseModel):
     target_host: Any
-    target_directories: list[str] = SHORT_DIRECTORIES
+    target_directories: list[str] = DEFAULT_DIRECTORIES
 
 
 @app.post("/enumerate")

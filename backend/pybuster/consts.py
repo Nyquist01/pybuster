@@ -1,4 +1,5 @@
-from .cli import get_target_paths
+from .utils import get_target_paths
 
-DEFAULT_DIRECTORIES = get_target_paths("common.txt")
-SHORT_DIRECTORIES = get_target_paths("short.txt")
+
+DEFAULT_DIRECTORIES = get_target_paths("default_directories/common.txt")
+SHORT_DIRECTORIES = get_target_paths("default_directories/short.txt")

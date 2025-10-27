@@ -9,16 +9,11 @@ import uvloop
 
 from pybuster.requester import Requester
 from pybuster.table import display_responses
-from pybuster.utils import setup_logging
+from pybuster.utils import setup_logging, get_target_paths
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 logger = logging.getLogger()
-
-
-def get_target_paths(file_path: str) -> list[str]:
-    with open(file_path) as file:
-        return file.read().split("\n")
 
 
 def main(
@@ -28,7 +23,7 @@ def main(
         typer.Argument(
             help="A .txt file containing directories/paths to enumerate on the target host"
         ),
-    ] = "backend/common.txt",
+    ] = "backend/default_directories/common.txt",
 ):
     setup_logging()
     target_paths = get_target_paths(filename)

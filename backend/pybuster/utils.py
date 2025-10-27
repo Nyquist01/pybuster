@@ -34,3 +34,8 @@ def setup_logging():
         level=logging.INFO,
         handlers=[logging.FileHandler("pybuster.log"), logging.StreamHandler()],
     )
+
+
+def get_target_paths(file_path: str) -> list[str]:
+    with open(file_path) as file:
+        return file.read().split("\n")
