@@ -18,38 +18,10 @@ Using Pybuster from the CLI requires:
 
 - Python 3.13 or above
 
-### Requirements.txt
-
-1. Create a virtual environment:
+Enumerate a target website using:
 
 ```
-python -m venv .venv
-```
-
-2. Activate it:
-
-```
-source .venv/bin/activate
-```
-
-3. Install the dependencies:
-
-```
-pip install -r requirements.txt
-```
-
-4. Run the program:
-
-```
-python -m pybuster -t google.com
-```
-
-### UV
-
-If you have [UV](https://docs.astral.sh/uv/) install then you can run using:
-
-```
-uv run -m pybuster -t google.com
+bash pybuster.sh google.com
 ```
 
 ## Browser
