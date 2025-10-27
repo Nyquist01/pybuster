@@ -65,3 +65,12 @@ input[type="submit"]:hover {
   background-color: #2ea043;
   transform: translateY(-2px);
 }
+
+.results-table th,
+.results-table td {
+  border-bottom: 1px solid #ddd;
+}
+
+.results-table tr:hover {
+  background-color: coral;
+}

@@ -27,26 +27,8 @@ class EnumerationRequest(BaseModel):
 async def enumerate_website(
     enumeration_request: EnumerationRequest,
 ) -> list[ResponseResult]:
+    """Enumerate the target host against all target directories."""
     requester = Requester(
         enumeration_request.target_host, enumeration_request.target_directories
     )
-    # response = await requester.enumerate()
-    response = [
-        {
-            "status_code": 200,
-            "path": "/path1",
-            "size": 1,
-            "content_type": "html",
-            "server": "nginx",
-            "tech": "jQuery",
-        },
-        {
-            "status_code": 404,
-            "path": "/path2",
-            "size": 1,
-            "content_type": "text",
-            "server": "aws",
-            "tech": "python",
-        },
-    ]
-    return response
+    return await requester.enumerate()
