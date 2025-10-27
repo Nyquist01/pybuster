@@ -9,7 +9,7 @@ import uvloop
 
 from pybuster.requester import Requester
 from pybuster.table import display_responses
-from pybuster.utils import setup_logging, get_target_paths
+from pybuster.utils import get_target_paths, setup_logging
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 

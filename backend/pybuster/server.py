@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from .consts import SHORT_DIRECTORIES, DEFAULT_DIRECTORIES
+from .consts import DEFAULT_DIRECTORIES
 from .requester import Requester, ResponseResult
 
 app = FastAPI()
