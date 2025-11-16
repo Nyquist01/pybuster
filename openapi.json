@@ -1,0 +1,250 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "PyBuster",
+        "summary": "API for PyBuster, a tool like GoBuster but written in Python",
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/api/v1.0/scan/": {
+            "post": {
+                "tags": [
+                    "scan"
+                ],
+                "summary": "Initiate Scan",
+                "description": "Send a request to scan the target host.",
+                "operationId": "initiate_scan_api_v1_0_scan__post",
+                "parameters": [
+                    {
+                        "name": "target_host",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Target Host"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ResponseResult"
+                                    },
+                                    "title": "Response Initiate Scan Api V1 0 Scan  Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1.0/scan/{target_host}": {
+            "get": {
+                "tags": [
+                    "scan"
+                ],
+                "summary": "Get Scan Results",
+                "description": "Get scan results for the target host.",
+                "operationId": "get_scan_results_api_v1_0_scan__target_host__get",
+                "parameters": [
+                    {
+                        "name": "target_host",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Target Host"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "scan"
+                ],
+                "summary": "Delete Scan Results",
+                "description": "Delete scan results for the target host.",
+                "operationId": "delete_scan_results_api_v1_0_scan__target_host__delete",
+                "parameters": [
+                    {
+                        "name": "target_host",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Target Host"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "ResponseResult": {
+                "properties": {
+                    "status_code": {
+                        "type": "integer",
+                        "title": "Status Code"
+                    },
+                    "path": {
+                        "type": "string",
+                        "title": "Path"
+                    },
+                    "size": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Size"
+                    },
+                    "content_type": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Content Type"
+                    },
+                    "server": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Server"
+                    },
+                    "tech": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Tech"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "status_code",
+                    "path",
+                    "size"
+                ],
+                "title": "ResponseResult"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}
