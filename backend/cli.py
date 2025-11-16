@@ -22,7 +22,7 @@ def main(
         typer.Argument(
             help="A .txt file containing directories/paths to enumerate on the target host"
         ),
-    ] = "backend/directory_lists/common.txt",
+    ] = "backend/src/directory_lists/common.txt",
 ):
     setup_logging()
     target_paths = get_target_paths(filename)
