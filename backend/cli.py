@@ -6,10 +6,9 @@ from typing import Annotated
 
 import typer
 import uvloop
-
-from pybuster.requester import Requester
-from pybuster.table import display_responses
-from pybuster.utils import get_target_paths, setup_logging
+from src.pybuster.requester import Requester
+from src.pybuster.table import display_responses
+from src.pybuster.utils import get_target_paths, setup_logging
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
@@ -23,7 +22,7 @@ def main(
         typer.Argument(
             help="A .txt file containing directories/paths to enumerate on the target host"
         ),
-    ] = "backend/default_directories/common.txt",
+    ] = "backend/directory_lists/common.txt",
 ):
     setup_logging()
     target_paths = get_target_paths(filename)

@@ -9,14 +9,13 @@ services:
       - 8080:8080
     volumes:
       - ./frontend:/frontend
-
   api-server:
     container_name: api-server
     build:
       context: .
-      dockerfile: dockerfiles/pybuster.Dockerfile
-    command: uv run uvicorn pybuster.server:app --host 0.0.0.0 --port 8000 --reload
+      dockerfile: dockerfiles/api.Dockerfile
+    command: uv run uvicorn src.app.main:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - 8000:8000
     volumes:
-      - ./backend/pybuster:/app/pybuster
+      - ./backend/src/app:/app/src/app
