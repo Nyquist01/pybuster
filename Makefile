@@ -25,11 +25,4 @@ up:
 
 
 down:
-	docker compose down
-
-
-format:
-	uv run ruff format backend/
-	uv run ruff check --fix backend/
-	uv run ruff check --fix --select I backend/
-
+	docker compose down --remove-orphans

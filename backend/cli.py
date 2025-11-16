@@ -6,6 +6,7 @@ from typing import Annotated
 
 import typer
 import uvloop
+
 from src.pybuster.requester import Requester
 from src.pybuster.table import display_responses
 from src.pybuster.utils import get_target_paths, setup_logging
